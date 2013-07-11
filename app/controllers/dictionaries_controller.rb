@@ -2,6 +2,7 @@ class DictionariesController < ApplicationController
   before_action :set_dictionary, only: [:show]
 
   def show
+    respond_to :json
   end
 
   private
