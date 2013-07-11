@@ -1,4 +1,5 @@
 ScrabbleRails::Application.routes.draw do
+  get "scrabble/index"
   resources :dictionaries
   get 'word/:word' => 'dictionaries#show'
   # The priority is based upon order of creation: first created -> highest priority.
