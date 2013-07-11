@@ -6,26 +6,21 @@ $().ready ->
 
   $('li.tile').draggable()
 
-
   $(".cell").droppable
     accept: "li.tile"
     hoverClass: "cell-hover"
     drop: (event, ui)->
       tile = ui
-      # tile.draggable.remove()
-
       $(this).html(tile.helper)
       $(tile.helper).removeAttr('style')
       $(tile.helper).css
         position: "relative"
       $(tile.helper).addClass('tile-active')
-      cell = event.target
 
-      #   position: "static"
-      #   # top: $(cell)[0].offsetTop + 1
-      #   # left: $(cell)[0].offsetLeft + 1
-      # , 100
-
-    $('.tile').on 'click', ->
-      parent = $(this).parent()
-      # if $(parent).hasClass('.cell')
+  $('.tile[data-blank="true"]').on 'click', ->
+    that = this
+    $(document).keypress (e) ->
+      letter = String.fromCharCode(e.which)
+      $(that).html(letter)
+      $(that).attr("data-letter", letter)
+      $(document).unbind('keypress')

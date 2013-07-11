@@ -73,6 +73,9 @@ $raduis: 4px;
 }
 
 .tile-active, .tile:active, .btn-primary.active{
-  background-image: url(wood-hover.png);
+  background-image: url(wood-hover.png) !important;
   color: black;
+}
+.tile[data-blank="true"]{
+  text-decoration: underline;
 }
