@@ -16,16 +16,15 @@
   width: 60px;
   height: 60px;
   background-image: url('board.png');
-  opacity: 0.6;
   border: solid 1px black;
 vertical-align: middle;
   i{
-    opacity: 1.0;
     font-size: 60px;
     color: black;
     margin: 2px;
   }
 }
+
 #game-board{
   margin: auto 0;
   #board .row{
@@ -53,10 +52,16 @@ $raduis: 4px;
   display: inline-block;
   background-image: url(wood.png);
   font-weight: 400;
-  font-size: 30px;
+  font-size: 36px;
   text-align: center;
-  padding: 15px;
+  padding: 5px 10px 12px 10px;
   min-width: 30px;
+}
+.value{
+  font-size: 12px;
+  vertical-align:top;
+  padding: 0 0 4px 2px;
+  color: black;
 }
 
 .tile:active, .btn-primary.active{
