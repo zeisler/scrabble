@@ -11,3 +11,22 @@
  *= require_self
  *= require_tree .
  */
+html,
+      body {
+        height: 100%;
+        /* The html and body elements cannot have any padding or margin. */
+      }
+
+      /* Wrapper for page content to push down footer */
+      #wrap {
+        min-height: 100%;
+        height: auto !important;
+        height: 100%;
+      }
+
+
+.container {
+        width: auto;
+        max-width: 680px;
+      }
+
