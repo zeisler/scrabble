@@ -1,0 +1,2 @@
+module ScrabbleHelper
+end
