@@ -5,6 +5,10 @@
 .rack-wood{
   background-image: url('red-wood.jpg');
   opacity: 0.8;
+  height: 80px;
+  width: 515px;
+  padding:15px;
+  margin: 0 auto 10px auto;
 }
 
 .cell {
@@ -41,4 +45,21 @@ $raduis: 4px;
 }
 .right_bottom {
   border-radius:0 0 $raduis 0;
+}
+
+
+.tile.btn{
+  background-color: white;
+  display: inline-block;
+  background-image: url(wood.png);
+  font-weight: 400;
+  font-size: 30px;
+  text-align: center;
+  padding: 15px;
+  min-width: 30px;
+}
+
+.tile:active, .btn-primary.active{
+  background-image: url(wood-hover.png);
+  color: black;
 }
