@@ -1,3 +1,5 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+$().ready ->
+  grid_size = 15*15
+  grid(grid_size, '#game-board')
+  find_center(grid_size)
+  find_edges(grid_size)

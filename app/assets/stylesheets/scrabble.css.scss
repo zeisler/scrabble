@@ -3,6 +3,42 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .rack-wood{
-  background-image: url('wood-hover.png');
-  opacity: 0.5;
+  background-image: url('red-wood.jpg');
+  opacity: 0.8;
+}
+
+.cell {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  background-image: url('board.png');
+  opacity: 0.6;
+  border: solid 1px black;
+vertical-align: middle;
+  i{
+    opacity: 1.0;
+    font-size: 60px;
+    color: black;
+    margin: 2px;
+  }
+}
+#game-board{
+  margin: auto 0;
+  #board .row{
+    margin-left: 0;
+  }
+  margin-bottom: 10px;
+}
+$raduis: 4px;
+.left_top {
+  border-radius:$raduis 0 0 0;
+}
+.right_top {
+  border-radius:0 $raduis 0 0;
+}
+.left_bottom {
+  border-radius:0 0 0 $raduis;
+}
+.right_bottom {
+  border-radius:0 0 $raduis 0;
 }
