@@ -12,7 +12,6 @@
  *= require jquery.ui.all
  *= require_tree .
  */
-@import "bootstrap-responsive";
 html,
       body {
         height: 100%;
