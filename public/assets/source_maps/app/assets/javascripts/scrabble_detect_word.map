@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "",
+  "sourceRoot": "",
+  "sources": [
+    "/assets/source_maps/app/assets/javascripts/scrabble_detect_word.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA;CAAA;CAAA"
+}

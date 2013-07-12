@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "",
+  "sourceRoot": "",
+  "sources": [
+    "/assets/source_maps/app/assets/javascripts/detect_word.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA;CAAA,CAAA,CAAqB,GAAf,GAAe,EAArB;CAKE,OAAA,GAAA;CAAA,EAAO,CAAP,EAAA,CAAO;CACM,EAAL,CAAI,CAAZ,MAAA;CANF,EAAqB;CAArB"
+}
