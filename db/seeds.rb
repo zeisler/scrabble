@@ -15,7 +15,7 @@
 #   end
 # end
 
-require('CSV')
+require 'csv'
 blocks = []
 index = 0
 PATH = File.expand_path('')
