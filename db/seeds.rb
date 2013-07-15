@@ -30,7 +30,7 @@ block_count.times do |i|
      current = i * 1000
      1000.times do |trans_i|
        unless blocks[trans_i + current].nil?
-         Dictionary.create word: '#{blocks[trans_i + current]}'
+         Dictionary.connection.execute "INSERT INTO Dictionaries (word) values ('#{blocks[trans_i + current]}')"
        end
      end
    end
