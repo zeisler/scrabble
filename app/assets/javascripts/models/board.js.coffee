@@ -1,0 +1,2 @@
+window.Board = class Board
+
