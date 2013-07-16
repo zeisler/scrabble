@@ -1,14 +1,24 @@
-window.Letters = class Letters
-  constructor: ->
-    @letters = []
+window.Tile_Collection = class Tile_Collection
+  constructor: (parent)->
+    @parent = parent.constructor.name
+    @on_change = parent.on_change
+    @tiles = []
+  all: (index)->
+    @tiles
   remove_at: (index) ->
-    @letters.splice(index, 1)
+    tile = @tiles.splice(index, 1)
+    @on_change(@first(tile), "remove_at")
+    return tile
   add: (tiles) ->
     tiles = @to_array tiles
     for tile in tiles
-      @letters.push tile
+      length = @tiles.length
+      new_length = @tiles.push tile
+      if new_length > length
+        @on_change(@first(tile), "add")
+
   quantity: ->
-    @letters.length
+    @tiles.length
   remove: (tiles)->
     tiles = @to_array tiles
     tiles_to_be_returned = []
@@ -25,7 +35,7 @@ window.Letters = class Letters
     else
       id = tile
     index = 0
-    for tile in @letters
+    for tile in @tiles
       if tile.id = id
         return index
       index += 1
@@ -36,3 +46,7 @@ window.Letters = class Letters
       return array
     else
       return element
+
+  first: (element) ->
+    element = @to_array element
+    return element[0]
