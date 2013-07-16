@@ -1,12 +1,16 @@
-window.Bag = class Bag extends Letters
-
+window.Bag = class Bag
+  constructor : ->
+    @tiles = new Tile_Collection(this)
+  on_change: (obj, where) ->
+    console.log @parent + "::" + where
+    console.log obj
   take_up_to: (tiles_to_get)->
-    if tiles_to_get > @letters.length
-      tiles_to_get = @letters.length
+    if tiles_to_get > @tiles.quantity()
+      tiles_to_get = @tiles.quantity()
     tiles_to_return = []
     for tile in [1..tiles_to_get]
-      random_index = @getRandomInt(0, ((@letters.length) - 1))
-      tiles_to_return.push @remove_at(random_index)
+      random_index = @getRandomInt(0, ((@tiles.quantity()) - 1))
+      tiles_to_return.push @tiles.remove_at(random_index)
     return tiles_to_return
 
   fill: ->
@@ -15,7 +19,7 @@ window.Bag = class Bag extends Letters
       for letter, amounts of @letter_distributions
         range = [1..amounts]
         for id in range
-          @letters.push new Tile(letter,  @.score_by_rules(letter),id_count)
+          @tiles.add new Tile(letter,  @.score_by_rules(letter),id_count)
           id_count += 1
       @bag_has_been_filled = true
 
