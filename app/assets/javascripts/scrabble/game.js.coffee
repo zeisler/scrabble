@@ -12,17 +12,20 @@ $().ready ->
       @fill_rack()
       @rack.display_rack()
       @board = new Board
+      @set_buttons()
 
     fill_rack: ->
       number_to_fill = @rack.quanity_until_full()
       returned_tiles = @bag.take_up_to(number_to_fill)
-      @rack.add (returned_tiles)
+      @rack.add_in_mass (returned_tiles)
 
     swap_tiles: (tiles) ->
-      tiles = @bag.to_array tiles
       for tile in tiles
-        @rack.remove tile
-        @bag.add(tile)
+        unless tile == undefined
+          @rack.remove_by_letter tile.value
+          @bag.add(tile.value, tile.score)
       @fill_rack()
-
-  # window.game = new Game();
+    set_buttons: ->
+      $('#new_rack').on 'click', =>
+        @swap_tiles(@rack.all())
+  window.game = new Game();
