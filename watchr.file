@@ -1,0 +1,1 @@
+watch( './app/assets/javascript/(.*)\.js.coffee' )  { system("rake spec:javascript") }

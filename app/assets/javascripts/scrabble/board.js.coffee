@@ -9,7 +9,6 @@ window.Board = class Board
     @ui_drag_drop()
 
   ui_drag_drop: ->
-    $('li.tile').draggable()
     $(".cell").droppable
     accept: "li.tile"
     hoverClass: "cell-hover"

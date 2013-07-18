@@ -1,5 +1,4 @@
 window.Tile = class Tile
-  constructor: (value, score, id) ->
+  constructor: (value, score) ->
     @value = value
     @score = score
-    @id = id

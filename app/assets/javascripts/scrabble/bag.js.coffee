@@ -1,26 +1,29 @@
-window.Bag = class Bag
+window.Bag = class Bag extends Tile_Collection
   constructor : ->
-    @tiles = new Tile_Collection(this)
-  on_change: (obj, where) ->
-    console.log @parent + "::" + where
+    super()
+  on_change: (obj, where) =>
+    console.log 'Bag' + "::" + where
     console.log obj
+    @update_ui(obj)
+  update_ui: (tile) ->
+    console.log "bag update ui"
   take_up_to: (tiles_to_get)->
-    if tiles_to_get > @tiles.quantity()
-      tiles_to_get = @tiles.quantity()
+    if tiles_to_get > @quantity()
+      tiles_to_get = @quantity()
+    if tiles_to_get == 0
+      return null
     tiles_to_return = []
     for tile in [1..tiles_to_get]
-      random_index = @getRandomInt(0, ((@tiles.quantity()) - 1))
-      tiles_to_return.push @tiles.remove_at(random_index)
+      random_index = @getRandomInt(0, ((@quantity()) - 1))
+      tiles_to_return.push @remove_at(random_index)
     return tiles_to_return
 
   fill: ->
     unless @bag_has_been_filled?
-      id_count = 0
       for letter, amounts of @letter_distributions
         range = [1..amounts]
         for id in range
-          @tiles.add new Tile(letter,  @.score_by_rules(letter),id_count)
-          id_count += 1
+          @add(letter,  @score_letters(letter))
       @bag_has_been_filled = true
 
   #Class Helpers
@@ -28,16 +31,16 @@ window.Bag = class Bag
     return Math.floor(Math.random() * (max - min + 1)) + min
 
   #Class Resources
-  score_by_rules: (word) ->
-    sum = 0
+  score_letters: (letter) ->
+    score = 0
     for rule, value of @rules
       regStr = new RegExp("[#{rule}]", "g")
-      score = (word.match regStr)
-      if score?
-        sum += (score.length * value)
-    return sum
+      score = (letter.match regStr)
+      if score != null
+        return value
 
   rules:
+    _: 0,
     aeioulnrst: 1,
     dg: 2,
     bcmp: 3,

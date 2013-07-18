@@ -1,11 +1,16 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
+
 
 gem 'rails', '4.0.0'
 
 group :development do
-  gem 'sqlite3', '1.3.7'
+  gem 'sqlite3', '1.3.7', :platform => :ruby
   gem 'coffee-rails-source-maps'
+  platforms :jruby do
+    # gem 'jruby-openssl'
+    gem 'activerecord-jdbcsqlite3-adapter'
+    gem 'trinidad', :require => nil
+  end
 end
 
 gem 'sass-rails', '4.0.0'
