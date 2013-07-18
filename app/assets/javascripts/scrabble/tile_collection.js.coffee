@@ -1,26 +1,32 @@
+//= require scrabble/tile
 window.Tile_Collection = class Tile_Collection
-  constructor: (parent)->
-    @parent = parent.constructor.name
-    @on_change = parent.on_change
-    @tiles = []
+  constructor: ()->
+    @collection = new Object()
+    @id = 0
+  on_change: ->
+    return false
   all: (index)->
-    @tiles
+    return @collection
   remove_at: (index) ->
-    tile = @tiles.splice(index, 1)
-    @on_change(@first(tile), "remove_at")
+    tile = @collection.splice(index, 1)
+    unless tile == -1
+      @on_change(tile, "remove_at")
     return tile
-  add: (tiles) ->
-    tiles = @to_array tiles
-    for tile in tiles
-      length = @tiles.length
-      new_length = @tiles.push tile
-      if new_length > length
-        @on_change(@first(tile), "add")
-
+  remove_by_id: (id) ->
+    index = @find_index(id)
+    @remove_at index
+  add: (letter,score) ->
+      @collection[@id] = new Tile(letter, score)
+      @id += 1
+      @on_change(this.collection[this.id], "add")
+  shuffle: ->
+    collection = shuffle @collection.first()
+    @collection = []
+    @collection.push collection
   quantity: ->
-    @tiles.length
+    @collection.length
   remove: (tiles)->
-    tiles = @to_array tiles
+    tiles = to_array tiles
     tiles_to_be_returned = []
     for tile in tiles
       index = @find_index(tile)
@@ -35,18 +41,7 @@ window.Tile_Collection = class Tile_Collection
     else
       id = tile
     index = 0
-    for tile in @tiles
+    for tile in @collection
       if tile.id = id
         return index
       index += 1
-  to_array: (element) ->
-    if element.length == undefined
-      array = []
-      array.push element
-      return array
-    else
-      return element
-
-  first: (element) ->
-    element = @to_array element
-    return element[0]
