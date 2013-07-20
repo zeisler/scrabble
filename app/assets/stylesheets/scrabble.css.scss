@@ -72,7 +72,7 @@ $raduis: 4px;
   color: black;
 }
 
-.tile-active, .tile:active, .btn-primary.active{
+.selected-true, .tile-active, .tile:active, .btn-primary.active{
   background-image: url(wood-hover.png) !important;
   color: black;
 }

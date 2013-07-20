@@ -1,11 +1,11 @@
 <div ng-controller="Rack" class="hero-unit rack-wood" id="rack">
   <ul class="btn-toolbar ui-sortable" data-toggle="buttons-checkbox" id="sortable"></ul>
-  <li ng-repeat="tile in tiles" class='ui-state-default btn btn-primary tile'>
-  {{tile.letter}}
-  <span>{{tile.score}}</span>
+  <li ng-repeat="tile in tiles" ng-click="tile.selected = true"class='ui-state-default btn btn-primary tile selected-{{tile.selected}}'>
+  {{tile.letter}}<span class="value">{{tile.score}}</span>
   </li>
+  <a class="btn" ng-click="shuffle_rack()" >Shuffle Rack</a>
+  <a class="btn" ng-click="new_rack()">New Rack</a>
 </div>
-<div class="btn" id='shuffle_rack'>Shuffle Rack</div>
-<div class="btn" id='new_rack'>New Rack</div>
+
 
 <div id="game-board"></div>
