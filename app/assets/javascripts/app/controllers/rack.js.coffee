@@ -1,4 +1,4 @@
-window.Rack = ($scope) ->
+window.Rack = ($scope, $http) ->
   $scope.tiles = [
     {id: 0, letter: "a", score: 2, selected: false},
     {id: 1, letter: "p", score: 2, selected: false},
@@ -18,6 +18,24 @@ window.Rack = ($scope) ->
       ]
   $scope.shuffle_rack = ->
     shuffle_logic $scope.tiles
+
+  $scope.is_word = ->
+    word = ""
+    angular.forEach $scope.tiles, (tile) ->
+      if tile.selected == true
+        word += tile.letter
+    dictionary(word)
+
+  dictionary = (word) ->
+    $http(
+      method: "GET"
+      url: "/word/#{word}.json"
+    ).success((data, status, headers, config) ->
+      console.log data.word
+      if data.word == word
+        alert "Word: #{word} is a valid word."
+    ).error (data, status, headers, config) ->
+        alert "Word: #{word} is not a valid word."
 
   shuffle_logic = (a) ->
     i = a.length

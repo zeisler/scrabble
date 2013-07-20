@@ -14,7 +14,12 @@
 //= require jquery.ui.all
 //= require jquery_ujs
 //= require turbolinks
-//= require scrabble/game
+//= require angular
+//= require app/controllers/rack
+//= require app/resources/dictionary
+
+
+
 
 
 
