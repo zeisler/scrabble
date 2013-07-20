@@ -15,7 +15,7 @@ $().ready ->
       @set_buttons()
 
     fill_rack: ->
-      number_to_fill = @rack.quanity_until_full()
+      number_to_fill = @rack.quantity_until_full()
       returned_tiles = @bag.take_up_to(number_to_fill)
       @rack.add_in_mass (returned_tiles)
 

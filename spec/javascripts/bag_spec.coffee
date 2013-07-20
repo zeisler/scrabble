@@ -1,6 +1,6 @@
 //= require scrabble/bag
 
-describe "Bag" , ->
+describe "class Bag" , ->
   beforeEach ->
     @bag = new Bag
   describe "fill" , ->

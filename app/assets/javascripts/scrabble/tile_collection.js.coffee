@@ -19,7 +19,8 @@ window.Tile_Collection = class Tile_Collection
     @on_change(tile, "add")
   add_in_mass: (array_of_tiles) ->
     for tile in array_of_tiles
-      @add(tile.value, tile.score)
+      if tile?
+        @add(new Tile(tile.value, tile.score))
   shuffle: ->
     @collection = @shuffle_logic(@collection)
     for tile in @collection
@@ -31,7 +32,7 @@ window.Tile_Collection = class Tile_Collection
         t = a[j]
         a[j] = a[i]
         a[i] = t
-    a
+    return a
   quantity: ->
     @collection.length
   remove_by_letter: (letter) ->

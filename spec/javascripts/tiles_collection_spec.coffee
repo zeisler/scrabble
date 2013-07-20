@@ -1,6 +1,6 @@
 //= require scrabble/tile_collection
 
-describe "Tile Collection" , ->
+describe "class Tile Collection" , ->
   beforeEach ->
     @collection = new Tile_Collection()
     @collection.add(new Tile('A', 2))

@@ -22,8 +22,8 @@ window.Bag = class Bag extends Tile_Collection
     unless @bag_has_been_filled?
       for letter, amounts of @letter_distributions
         range = [1..amounts]
-        for id in range
-          @add(letter,  @score_letters(letter))
+        for num in range
+          @add(new Tile(letter, @score_letters(letter)))
       @bag_has_been_filled = true
 
   #Class Helpers
