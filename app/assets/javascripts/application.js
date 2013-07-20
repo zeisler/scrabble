@@ -16,7 +16,6 @@
 //= require turbolinks
 //= require angular
 //= require app/controllers/rack
-//= require app/resources/dictionary
 
 
 
