@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery.ui.all
 //= require jquery_ujs
-//= require turbolinks
 //= require angular
 //= require angular-dragdrop
 //= require app/resources/tile

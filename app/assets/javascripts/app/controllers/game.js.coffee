@@ -2,12 +2,21 @@ window.gameController = ($scope,$http) ->
   $ = $scope
   $.game = new Game
   $.rack_tiles = $.game.rack.all()
+  $.rack1 = $.rack_tiles[0]
+  $.rack2 = $.rack_tiles[1]
+  $.rack3 = $.rack_tiles[2]
+  $.rack4 = $.rack_tiles[3]
+  $.rack5 = $.rack_tiles[4]
+  $.rack6 = $.rack_tiles[5]
+  $.rack7 = $.rack_tiles[6]
   $.bag_tiles  = $.game.bag.all()
   $.board_cells = $.game.board.grid
   $.bag = $.game.bag
   $.rack = $.game.rack
   $.board = $.game.board
   $.played_words = $.game.played_words
+
+
 
   $.shuffle_rack = ->
     $.game.rack.shuffle()

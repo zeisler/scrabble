@@ -1,19 +1,12 @@
 <div ng-controller="gameController">
-  <div class="hero-unit rack-wood" id="rack">
-    <ul class="btn-toolbar ui-sortable" data-toggle="buttons-checkbox" id="sortable"></ul>
-    <tile
-      ng-repeat="tile in rack_tiles"
-      ng-click="toggle_selection(tile)"
-      data-drag="true"
-      data-jqyoui-options="{revert: 'invalid'}"
-      ng-model="rack_tile"
-      jqyoui-draggable="{animate:true}"
-      id="rack:{{$index}}"
-      class='ui-state-default btn btn-primary selected-{{tile.selected}}'
-    >
-      {{tile.value}}<span class="value">{{tile.score}}</span>
-    </tile>
+  <div id="rack" class="hero-unit">
+
+<tile ng-repeat="tile in rack_tiles" id="rack:{{$index}}" class='ui-state-default btn btn-primary selected-{{tile.selected}}'>
+        {{tile.value}}<span class="value">{{tile.score}}</span>
+      </tile>
   </div>
+
+
     <a class="btn" ng-click="shuffle_rack()">Shuffle Rack</a>
     <a class="btn" ng-click="swap_tiles()">Swap Tiles</a>
     <a class="btn" ng-click="is_word()">Is word</a>
