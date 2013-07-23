@@ -1,8 +1,3 @@
-//= require lib/array
-//= require scrabble/tile_collection
-//= require scrabble/bag
-//= require scrabble/rack
-//= require scrabble/board
 $().ready ->
   window.Game = class Game
     constructor: ()->

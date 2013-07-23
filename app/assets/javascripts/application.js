@@ -15,7 +15,21 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require angular
-//= require app/controllers/rack
+//= require angular-dragdrop
+//= require app/resources/tile
+//= require app/resources/tile_collection
+//= require app/resources/bag
+//= require app/resources/rack
+//= require app/resources/cell
+//= require app/resources/board
+//= require app/resources/game
+//= require app/resources/word
+//= require app/controllers/game
+
+
+
+
+
 
 
 
