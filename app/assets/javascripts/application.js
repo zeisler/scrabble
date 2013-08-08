@@ -15,6 +15,9 @@
 //= require jquery_ujs
 //= require angular
 //= require angular-dragdrop
+//= require underscore
+//= require app/resources/dictionary
+//= require app/resources/grid
 //= require app/resources/tile
 //= require app/resources/tile_collection
 //= require app/resources/bag
