@@ -1,5 +1,3 @@
-//= require scrabble/tile_collection
-
 describe "Tile Collection" , ->
   beforeEach ->
     @collection = new Tile_Collection()
@@ -11,11 +9,7 @@ describe "Tile Collection" , ->
 
   describe "add", ->
     it "can add tiles to the collection", ->
-      expect(@collection.at(0)).toEqual { value : 'A', score : 2 }
-    it "calls on_change when adding from collection", ->
-      spyOn(@collection, 'on_change')
-      @collection.add(new Tile('G', 1))
-      expect(@collection.on_change).toHaveBeenCalled()
+      expect(@collection.at(0).value).toEqual 'A'
 
   describe "remove_at", ->
     it "remove a tile by index", ->
@@ -23,11 +17,7 @@ describe "Tile Collection" , ->
       expect(@collection.quantity()).toEqual 1
     it "removes a tile from the collection and returns that tile", ->
       returned_tile = @collection.remove_at 0
-      expect(returned_tile).toEqual { value : 'A', score : 2 }
-     it "calls on_change when removing from collection", ->
-      spyOn(@collection, 'on_change')
-      @collection.remove_at 0
-      expect(@collection.on_change).toHaveBeenCalled()
+      expect(returned_tile.value).toEqual 'A'
 
   describe "quantity", ->
     it "has a quantity that returns the number in the collection", ->
@@ -46,7 +36,7 @@ describe "Tile Collection" , ->
       @col.add(new Tile('G', 1))
       @col.add(new Tile('Y', 1))
 
-      unshuffled_col = cloneObject @col.all()
+      unshuffled_col = _.clone @col.all()
       @col.shuffle()
       expect(unshuffled_col).not.toEqual @col.all()
 
