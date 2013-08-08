@@ -1,3 +1,3 @@
 window.Cell = class Cell
-  constructor: (@tile=undefined, @bonus=null, edge=null) ->
+  constructor: (@y, @x, @tile=undefined, @bonus=undefined, @edge=undefined) ->
 
