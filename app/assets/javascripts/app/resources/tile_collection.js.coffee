@@ -4,8 +4,13 @@ window.Tile_Collection = class Tile_Collection
     @id = 0
   on_change: (obj, msg) ->
     return false
-  all: (index)->
+  all: ->
     return @collection
+  all_by_value: ->
+    tiles = ""
+    for tile in @collection
+      tiles += (tile.value + ", ")
+    return tiles
   remove_at: (index) ->
     tile = @collection.splice(index, 1)
     unless tile == -1
