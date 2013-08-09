@@ -33,6 +33,9 @@
     if @board.move(x,y, tile) && tile != undefined
       @rack.remove_at @rack.find_by_letter tile.value
       @log_game()
+      return true
+    else
+      return false
   move_by_word: (x,y,x2,y2,word) ->
     length = word.length
     if (x - x2) == (length - 1) || (y - y2) == (length - 1)
@@ -49,13 +52,19 @@
           @move(x_for,y,word[index])
           index += 1
 
-  play_word: ->
+  play_word: (x=null,y=null,x2=null,y2=null,word=null)->
+    if x != null && word != null
+      return false unless @move_by_word(x,y,x2,y2,word)
     if @board.make_word()
       @fill_rack()
+      @log_game()
+      return true
     else
       tiles = @board.empty_moves_from_board()
       @rack.add_in_mass tiles
-    @log_game()
+      @log_game()
+      return false
+
   log_game: ->
     @log_score()
     @log_rack()

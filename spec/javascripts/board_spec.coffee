@@ -16,30 +16,37 @@ describe "board", ->
     @board.move(0,0, @tile)
     expect(@board.move(1,1, @tile)).toEqual false
     expect(@board.moves.length).toEqual 1
-  it "make_word add to played_words if valid", ->
-    @board.move(0,0, @tile)
-    @board.move(0,1, @tile)
-    expect(@board.make_word()).toBe true
-    expect(@board.played_words.length).toEqual 1
-    expect(@board.total_score).toEqual 8
-  it "doesn't make a word if not valid word", ->
-    @tile.value = "b"
-    @board.move(0,0, @tile)
-    @board.move(0,1, @tile)
-    expect(@board.make_word()).toBe false
-    expect(@board.played_words.length).toEqual 0
-    expect(@board.total_score).toEqual 0
-  it "can score word scrabble", ->
-    @board.move( 0,0, _.clone(@tile.set_value("s")))
-    @board.move( 0,2, _.clone(@tile.set_value("c")))
-    @board.move( 0,1, _.clone(@tile.set_value("r")))
-    @board.move( 0,3, _.clone(@tile.set_value("a")))
-    @board.move( 0,4, _.clone(@tile.set_value("b")))
-    @board.move( 0,5, _.clone(@tile.set_value("b")))
-    @board.move( 0,6, _.clone(@tile.set_value("l")))
-    @board.move( 0,7, _.clone(@tile.set_value("e")))
-    expect(@board.make_word()).toBe true
-    expect(@board.total_score).toBe 4 * 8
+  describe "make_word", ->
+    it "add to played_words if valid", ->
+      @board.move(7,7, @tile)
+      @board.move(7,8, @tile)
+      expect(@board.make_word()).toBe true
+      expect(@board.played_words.length).toEqual 1
+      expect(@board.total_score).toEqual 8
+    it "doesn't make a word if first turn is not on center", ->
+      @board.move(0,0, @tile)
+      @board.move(0,1, @tile)
+      expect(@board.make_word()).toBe false
+      expect(@board.played_words.length).toEqual 0
+      expect(@board.total_score).toEqual 0
+    it "doesn't make a word if not valid word", ->
+      @tile.value = "b"
+      @board.move(7,7, @tile)
+      @board.move(7,8, @tile)
+      expect(@board.make_word()).toBe false
+      expect(@board.played_words.length).toEqual 0
+      expect(@board.total_score).toEqual 0
+    it "can score word scrabble", ->
+      @board.move( 7,0, _.clone(@tile.set_value("s")))
+      @board.move( 7,1, _.clone(@tile.set_value("c")))
+      @board.move( 7,2, _.clone(@tile.set_value("r")))
+      @board.move( 7,3, _.clone(@tile.set_value("a")))
+      @board.move( 7,4, _.clone(@tile.set_value("b")))
+      @board.move( 7,5, _.clone(@tile.set_value("b")))
+      @board.move( 7,6, _.clone(@tile.set_value("l")))
+      @board.move( 7,7, _.clone(@tile.set_value("e")))
+      expect(@board.make_word()).toBe true
+      expect(@board.total_score).toBe 4 * 8
 
 
 
