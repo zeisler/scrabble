@@ -16,6 +16,8 @@
   find_center:  ->
     @center = @grid[(@width - 1)/2][(@width - 1)/2]
     @center.bonus = "star"
+  grid_key: (axes) ->
+    @grid[axes.x][axes.y]
   move: (x,y, tile) ->
     cell = @get_cell(x, y)
     if @valid_move cell
@@ -29,8 +31,9 @@
       word = ""
       score = 0
       cells = []
-      all_moves = @connect_other_words_with_moves()
-      for cell in all_moves
+      moves = @connect_other_words_with_moves()
+      # moves = @check_for_words_new_adjacent_word(moves)
+      for cell in moves
         word += cell.tile.value
         score += cell.tile.score
         cells.push cell
@@ -44,47 +47,53 @@
         return false
     else
       return false
-  is_y_word: ->
-    if @moves[0].y == @moves[1].y
-      return _.sortBy @moves, (cell) ->
-        return cell.x
-    return false
-  is_x_word: ->
-    if @moves[0].x == @moves[1].x
-      return _.sortBy @moves, (cell) ->
-        return cell.y
-    return false
-  connect_other_words_with_moves: ->
-    y_word = @is_y_word()
-    x_word = @is_x_word()
-    if x_word
-      word = x_word
-      first = (_.first word).y + 1
-      last = ( _.last word).y + 1
-      x_value = word[0].x
-      for y in [first..0] by 1
-        cell = @grid[x_value][y]
-        return word if cell.tile == undefined
-        word.unshift cell
-      for y in [last..(@width-1)] by 1
-        cell = @grid[x_value][y]
-        return word if cell.tile == undefined
-        word.push cell
-      return word
-    else if y_word
-      word = y_word
-      first = (_.first word).x + 1
-      last = ( _.last word).x + 1
-      y_value = word[0].y
-      for x in [first..0] by 1
-        cell = @grid[x][y_value]
-        return word if cell.tile == undefined
-        word.unshift cell
-      for x in [last..(@width-1)] by 1
-        cell = @grid[x][y_value]
-        return word if cell.tile == undefined
-        word.push cell
-      return word
+  sort_by_axes: (axes, vector) -> # takes in an axes if it doesn't change
+    return _.sortBy vector, (cell) =>
+      return cell[axes]
+  find_direction_axes: ->
+    # if axes is consistent it's moving in the other direction
+    x_sort = @sort_by_axes("x", @moves)
+    if x_sort[1].x > x_sort[0].x
+      return {axes:"x", sort:x_sort}
+    y_sort = @sort_by_axes("y", @moves)
+    if y_sort[1].y > y_sort[0].y
+      return {axes:"y", sort:y_sort}
+  oposite_axes: (axes) ->
+    if axes is "x" then return "y"
+    if axes is "y" then return "x"
+
+  connect_other_words_with_moves:  ->
+    direction = @find_direction_axes()
+    axes = direction.axes
+    moves = direction.sort
+    first = (_.first moves)[axes]
+    last = ( _.last moves)[axes]
+    oposite_axes = @oposite_axes axes
+    oposite_axes_value = {}
+    oposite_axes_value[oposite_axes] = moves[0][oposite_axes]
+    #check out in both direction for connecting words
+    if first != 0
+      for value in [(first - 1)..0]
+        value = @add_key_to_value(value, axes)
+        cell = @grid_key _.extend(value, oposite_axes_value)
+        if cell.tile == undefined
+          break
+        else
+          moves.unshift cell
+    if last != (@width-1)
+      for value in [(last  + 1)..(@width-1)]
+        value = @add_key_to_value(value, axes)
+        cell = @grid_key _.extend(value, oposite_axes_value)
+        if cell.tile == undefined
+          break
+        else
+          moves.push cell
+    #check for gaps start to finish, for connections in middle
+    for value in [first..last]
+      value = @add_key_to_value(value, axes)
+      cell = @grid_key _.extend(value, oposite_axes_value)
+      moves = _.union(moves, [cell])
+    return @sort_by_axes axes, moves
   find_edges:  ->
     width = @width - 1
     left_top = @grid[0][0]
@@ -115,8 +124,8 @@
       return true
     else
       return false
-  cell_aligned_is_with_center: (cell) ->
-    if cell.x == @center.x || cell.y == @center
+  cell_is_on_center: (cell) ->
+    if cell.x == @center.x && cell.y == @center.y
       return true
     else
       return false
@@ -130,7 +139,8 @@
     # in first play there must be a tile on center
     if @is_first_word_of_game()
       for cell in @moves
-        return false unless @cell_aligned_is_with_center(cell)
+        return true if @cell_is_on_center(cell)
+      return false
     return true
 
   reset_moves: ->
@@ -141,6 +151,10 @@
       tiles.push cell.tile
       cell.tile = undefined
     return tiles
+  add_key_to_value: (value, key) ->
+    object = {}
+    object[key] = value
+    return object
 
 
 

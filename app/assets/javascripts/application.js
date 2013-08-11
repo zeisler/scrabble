@@ -14,7 +14,6 @@
 //= require jquery.ui.all
 //= require jquery_ujs
 //= require angular
-//= require angular-dragdrop
 //= require underscore
 //= require app/resources/dictionary
 //= require app/resources/grid
@@ -26,7 +25,7 @@
 //= require app/resources/board
 //= require app/resources/game
 //= require app/resources/word
-//= require app/controllers/game
+
 
 
 
