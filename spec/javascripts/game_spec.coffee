@@ -64,7 +64,7 @@ describe "Game" , ->
       @game.move_by_word 7,5,7,6,"go"
       expect(@game.play_word()).toEqual true
       expect((@game.board.played_words).length).toEqual(2)
-  describe "check_for_words_new_adjacent_word", ->
+  describe "adjacent_words", ->
     it "", ->
       #an
       #be
@@ -74,6 +74,7 @@ describe "Game" , ->
       @game.play_word()
       @stack_rack("net")
       @game.move_by_word 8,7,8,9,"net"
+      debugger
       @game.play_word()
       expect((@game.board.played_words).length).toEqual(5)
 
