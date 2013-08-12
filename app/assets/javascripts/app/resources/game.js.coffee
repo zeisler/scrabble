@@ -60,7 +60,7 @@
       @log_game()
       return true
     else
-      tiles = @board.empty_moves_from_board()
+      tiles = @board.retrack_moves_from_board()
       @rack.add_in_mass tiles
       @log_game()
       return false

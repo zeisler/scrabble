@@ -33,6 +33,7 @@ describe "board", ->
       @tile.value = "b"
       @board.move(7,7, @tile)
       @board.move(7,8, @tile)
+      debugger
       expect(@board.make_word()).toBe false
       expect(@board.played_words.length).toEqual 0
       expect(@board.total_score).toEqual 0
@@ -65,7 +66,7 @@ describe "board", ->
       @board.move( 7,5, _.clone(@tile.set_value("b")))
       @board.move( 7,6, _.clone(@tile.set_value("l")))
       @board.move( 7,7, _.clone(@tile.set_value("e")))
-      expect(@board.find_direction_axes().axes).toEqual "y"
+      expect(@board.find_direction_axes(@board.moves).axes).toEqual "y"
     it "moving in an x direction", ->
       @board.move( 0,7, _.clone(@tile.set_value("s")))
       @board.move( 1,7, _.clone(@tile.set_value("c")))
@@ -75,7 +76,7 @@ describe "board", ->
       @board.move( 5,7, _.clone(@tile.set_value("b")))
       @board.move( 6,7, _.clone(@tile.set_value("l")))
       @board.move( 7,7, _.clone(@tile.set_value("e")))
-      expect(@board.find_direction_axes().axes).toEqual "x"
+      expect(@board.find_direction_axes(@board.moves).axes).toEqual "x"
 
 
 

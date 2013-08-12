@@ -46,6 +46,7 @@ describe "Game" , ->
       @stack_rack("rae")#rage
       @game.move_by_word 12,5,12,6,"ra"
       @game.move(12,8,"e")
+      debugger
       expect(@game.play_word()).toBe true
       expect((@game.board.played_words).length).toEqual(2)
     it "checks before word for connecting word", ->
