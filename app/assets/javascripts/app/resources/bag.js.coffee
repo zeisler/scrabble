@@ -1,4 +1,4 @@
-window.Bag = class Bag extends Tile_Collection
+@Bag = class Bag extends Tile_Collection
   constructor: ->
     super()
     @fill()
