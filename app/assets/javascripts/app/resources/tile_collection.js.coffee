@@ -22,7 +22,7 @@
     @collection.length
 
   remove_by_value: (value) ->
-    @_remove_at @_find_index_by_letter(value)
+    @_remove_at @_find_index_by_value(value)
 
   # Finds Blank first blank tile
   blank: ->
