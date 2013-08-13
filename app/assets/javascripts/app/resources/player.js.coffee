@@ -1,0 +1,2 @@
+@Player = class Player
+  constructor: () ->
