@@ -13,6 +13,7 @@ group :development do
     gem 'trinidad', :require => nil
   end
 end
+gem 'scrabble-solver'
 
 gem 'sass-rails', '4.0.0'
 gem 'uglifier', '2.1.1'
