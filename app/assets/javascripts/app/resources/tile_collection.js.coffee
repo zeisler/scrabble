@@ -37,11 +37,9 @@ window.Tile_Collection = class Tile_Collection
     return tiles
 
   shuffle: ->
-    @collection = @shuffle_logic(@collection)
-    for tile in @collection
-      @on_change(tile, "shuffle")
+    @collection = @_shuffle_logic(@collection)
 
-  shuffle_logic: (a) ->
+  _shuffle_logic: (a) ->
     i = a.length
     while --i > 0
         j = ~~(Math.random() * (i + 1))
