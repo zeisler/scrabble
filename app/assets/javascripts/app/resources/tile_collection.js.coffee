@@ -21,8 +21,8 @@
   quantity: ->
     @collection.length
 
-  remove_by_letter: (letter) ->
-    @_remove_at @_find_by_letter(letter)
+  remove_by_value: (value) ->
+    @_remove_at @_find_index_by_letter(value)
 
   # Finds Blank first blank tile
   blank: ->
@@ -30,12 +30,15 @@
       return tile if tile.value == "_"
     return false
 
+  find_by_value: (value) ->
+    @_at @_find_index_by_value(value)
+
   # Private Methods ========================================================== #
 
   #finds letter and returns index
-   _find_by_letter: (letter) ->
+   _find_index_by_value: (value) ->
     for tile in @collection
-      if tile.value == letter
+      if tile.value == value
         return _i
     return null
 
@@ -54,10 +57,10 @@
       return false
 
   _shuffle_logic: (a) ->
-  i = a.length
-  while --i > 0
-      j = ~~(Math.random() * (i + 1))
-      t = a[j]
-      a[j] = a[i]
-      a[i] = t
-  a
+    i = a.length
+    while --i > 0
+        j = ~~(Math.random() * (i + 1))
+        t = a[j]
+        a[j] = a[i]
+        a[i] = t
+    a
