@@ -1,17 +1,16 @@
 @Bag = class Bag extends Tile_Collection
   constructor: ->
     super()
-    @scores = Tile_Scores()
-    @letter_distributions = Letter_Distributions()
     @fill()
 
   # Reads from Letter_Distributions to determine how to fill bag
   fill: ->
     unless @bag_has_been_filled?
+      @scores = Tile_Scores()
+      @letter_distributions = Letter_Distributions()
       for letter, amounts of @letter_distributions
-        range = [1..amounts]
-        for id in range
-          @add(new Tile letter,  @score_letters(letter))
+        for index in [1..amounts]
+          @add(new Tile(letter,  @score_letters(letter)))
       @bag_has_been_filled = true
 
   #Class Resources
