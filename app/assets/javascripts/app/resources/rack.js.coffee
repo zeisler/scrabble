@@ -11,8 +11,11 @@
         tiles.push tile
     return tiles
 
+  log: ->
+    console.log @_all_by_value()
+
   # Return string with comma separated list of tiles
-  all_by_value: ->
+  _all_by_value: ->
     tiles = ""
     for tile in @collection
       tiles += (tile.value + ", ")
