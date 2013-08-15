@@ -7,13 +7,13 @@
     return @collection
 
   add: (tile) ->
-    if !(tile instanceof Tile)
-      return false
-    else if _.isArray tile
+    if _.isArray tile
       @_add_in_mass tile
-    else
+    else if (tile instanceof Tile)
       @collection.push tile
       @id += 1
+    else
+      return false
 
   shuffle: ->
     @collection = @_shuffle_logic(@collection)
@@ -32,6 +32,7 @@
 
   find_by_value: (value) ->
     @_at @_find_index_by_value(value)
+
 
   # Will return an amount of tiles but not more than what is in the bag
   take_up_to: (tiles_to_get)->

@@ -1,16 +1,23 @@
 # Service Class for Board
 @Analyze_Moves = class Analyze_Moves
-  constructor: (@board) ->
+  constructor: (board=null) ->
+    if board != null
+      @set_up_board(board)
+
+  set_up_board: (board) ->
+    @board = board
     @moves = @board.moves
     @grid = @board.grid
     @played_words = @board.played_words
     @center = @board.center
     @width = @board.grid.width
 
-  analyze: ->
-    @valid_moves()
-    @connect_tiles()
-    @additional_words()
+  analyze: (board) ->
+    @set_up_board(board)
+    return false unless @valid_moves()
+    return false unless @connect_tiles()
+    return false unless @additional_words()
+    return @cells_to_word(@moves)
 
   var_setup: ->
     direction = @find_direction_axes(@moves)
@@ -44,18 +51,18 @@
   #check for gaps in start to finish
   connect_gaps_in_middle: ->
     @loop_cells_for_tile {inital:@first, end:@last, axes:@axes}, (cell) =>
-      @moves = _.union(@moves, [cell])
-
+      unless @is_in_moves cell
+        @moves = _.union(@moves, [cell])
 
   # Connect with other words to make additional words ======================== #
 
   #check adjacent direction for new formed words
   additional_words: ->
-    @additional_words = []
+    @found_words = []
     @loop_cells_for_tile {inital:@first, end:@last, axes:@axes}, (@cell_outer) =>
       #create key for new word path
-      @additional_words[@cell_outer[@axes]] ?= []
-      @additional_words[@cell_outer[@axes]].push @cell_outer
+      @found_words[@cell_outer[@axes]] ?= []
+      @found_words[@cell_outer[@axes]].push @cell_outer
       @additional_words_top_and_left()
       @additional_words_bottom_and_right()
       @additional_words_no_results_found_check()
@@ -65,22 +72,23 @@
     value = @cell_outer[@axes]
     @loop_cells_for_tile {inital:inital, end:0, axes: @oposite_axes(@axes), value:value}, (cell_left) =>
       return false unless cell_left.tile?
-      @additional_words[cell_left[@axes]] ?= []
-      @additional_words[cell_left[@axes]].unshift(cell_left)
+      @found_words[cell_left[@axes]] ?= []
+      @found_words[cell_left[@axes]].unshift(cell_left)
 
   additional_words_bottom_and_right: ->
     inital = @cell_outer[@oposite_axes @axes]+1
+    value = @cell_outer[@axes]
     @loop_cells_for_tile {inital:inital, end:(@width-1), axes: @oposite_axes(@axes), value:value}, (cell_right) =>
       return false unless cell_right.tile?
-      @additional_words[cell_right[@axes]] ?= []
-      @additional_words[cell_right[@axes]].push(cell_right)
+      @found_words[cell_right[@axes]] ?= []
+      @found_words[cell_right[@axes]].push(cell_right)
 
   additional_words_no_results_found_check: ->
-    if @additional_words[@cell_outer[@axes]].length == 1
-      delete @additional_words[@cell_outer[@axes]]
+    if @found_words[@cell_outer[@axes]].length == 1
+      delete @found_words[@cell_outer[@axes]]
     #check if picked up already played words
-    else if @word_already_made(@cells_to_word @additional_words[@cell_outer[@axes]])
-      delete @additional_words[@cell_outer[@axes]]
+    else if @word_already_made(@cells_to_word @found_words[@cell_outer[@axes]])
+      delete @found_words[@cell_outer[@axes]]
     return true #must return true to keep outer loop from breaking
 
 
@@ -92,18 +100,22 @@
   valid_moves: ->
     unless @are_moves_more_than_one()
       return false
-    for move in @moves
-      return false if @cell_has_tile(move)
-      return false unless @subsequent_moves_aligment(move)
-    return false unless @check_first_set_of_moves_to_be_center(move)
+    return false unless @check_first_set_of_moves_to_be_center()
     return true
 
+  valid_move: (move) ->
+    return false if @cell_has_tile(move)
+    return false unless @subsequent_moves_aligment(move)
+    return true
   cell_has_tile: (move) ->
     cell = @grid.get_cell_by_key(move)
     if cell.tile? then true else false
 
   subsequent_moves_aligment: (move) ->
-    if @moves[0].x == move.x || @moves[0].y == move.y then true else false
+    if @moves.length > 0
+      if @moves[0].x == move.x || @moves[0].y == move.y then true else false
+    else
+      return true
 
   check_first_set_of_moves_to_be_center: (move) ->
     # in first play there must be a tile on center
@@ -130,7 +142,18 @@
       return false
     else
       return true
+
   # Helper Methods =========================================================== #
+
+  cells_to_word: (cells) ->
+    direction = @find_direction_axes cells
+    cells = direction.sort
+    word = "";score = 0;cells_ = []
+    for cell in cells
+      word += cell.tile.value
+      score += cell.tile.score
+      cells_.push cell
+    {value:word, score:score, cells:cells_}
 
   loop_cells_for_tile: (args, callback) ->
     oposite_axes = @oposite_axes args.axes
@@ -167,4 +190,7 @@
     object[key] = value
     return object
 
-
+  is_in_moves: (cell) ->
+    for move in @moves
+      return true if move.x == cell.x && move.y == cell.y
+    return false

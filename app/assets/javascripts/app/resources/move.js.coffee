@@ -1,2 +1,2 @@
 @Move = class Move
-  constructor: (@x,@y,@tile=null) ->
+  constructor: (@x,@y,@tile=null, @player) ->

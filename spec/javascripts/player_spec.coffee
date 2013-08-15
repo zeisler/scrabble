@@ -22,19 +22,17 @@ describe "Player", ->
     beforeEach ->
       @game = jasmine.createSpyObj('game', ['move', 'play_word', 'swap_tiles'])
       @player = new Player(@game, "Test_Player")
+      spyOn(@player.rack, 'remove_by_value').andReturn(new Tile())
 
     describe "move", ->
 
-      it "gets tile from rack by value", ->
-        spyOn(@player.rack, 'find_by_value')
+      it "removes tiles from rack by value", ->
         @player.move(0,0,"t")
-        expect(@player.rack.find_by_value).toHaveBeenCalledWith("t")
+        expect(@player.rack.remove_by_value).toHaveBeenCalledWith("t")
 
       it "sends Move to game", ->
         @player.move(0,0,"t")
-        expect(@player.game.move).
-          toHaveBeenCalledWith(
-            { x : 0, y : 0, tile : null, player : 'Test_Player' } )
+        expect(@player.game.move).toHaveBeenCalled
 
     describe "play_word", ->
 

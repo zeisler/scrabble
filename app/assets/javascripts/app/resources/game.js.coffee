@@ -1,96 +1,56 @@
 @Game = class Game
-  constructor: ()->
+  constructor: ->
     @bag = new Bag
-    @rack = new Rack
-    @fill_rack()
+
     @board = new Board
     @log_game()
-  fill_rack: ->
-    number_to_fill = @rack.quanity_until_full()
-    returned_tiles = @bag.take_up_to(number_to_fill)
-    @rack.add_in_mass (returned_tiles)
-  swap_tiles: (tiles) ->
-    for tile in tiles
-      unless tile == undefined
-        @rack.remove_by_letter tile.value
-        @bag.add(tile)
+
+  add_player: (@player = new Player(this)) ->
     @fill_rack()
-    @log_game()
 
-  blank: (value) ->
-    tile = @rack.blank()
-    if tile?
-      tile.value = value
-      return tile
-    else
-      return false
+  fill_rack: ->
+    returned_tiles = @bag.take_up_to(@player.rack.quanity_until_full())
+    @player.rack.add(returned_tiles)
 
-  move: (x,y,letter_from_rack) ->
-    if typeof letter_from_rack is "string"
-      tile = @rack.at @rack.find_by_letter letter_from_rack
-    else if letter_from_rack instanceof Tile
-      tile = letter_from_rack
-    if @board.move(x,y, tile) && tile != undefined
-      @rack.remove_at @rack.find_by_letter tile.value
+  swap_by_value: (values) ->
+    for value in values
+      tile = @player.rack.remove_by_value value
+      @bag.add(tile)
+    @fill_rack()
+    rack.log()
+
+  move: (move) ->
+    if @board.move(move)
+      @player.score = @score_tiles(tiles)
       @log_game()
-      return true
-    else
-      return false
-  move_by_word: (x,y,x2,y2,word) ->
-    length = word.length
-    if (x - x2) == (length - 1) || (y - y2) == (length - 1)
-      return false
-    else
-      if x == x2
-        index = 0
-        for y_for in [y..y2]
-          @move(x,y_for,word[index])
-          index += 1
-      else if y == y2
-        index = 0
-        for x_for in [x..x2]
-          @move(x_for,y,word[index])
-          index += 1
+    @player.get_next_move()
 
-  play_word: (x=null,y=null,x2=null,y2=null,word=null)->
-    if x != null && word != null
-      return false unless @move_by_word(x,y,x2,y2,word)
-    if @board.make_word()
+  move_by_word: (start_point, direction, tiles, name) ->
+    if @board.move_by_word(start_point, direction, tiles, name)
+      @log_game()
+
+
+  score_tiles: (tiles) ->
+    score = 0
+    for tile in tiles
+      score += tile.score
+    return score
+
+  get_next_move: ->
+    @player.get_next_move()
+
+  play_word: ->
+    score = @board.make_word()
+    if score
       @fill_rack()
+      @player.score += score
       @log_game()
+      @player.get_next_move()
       return true
     else
-      tiles = @board.retrack_moves_from_board()
-      @rack.add_in_mass tiles
       @log_game()
       return false
 
   log_game: ->
-    @log_score()
-    @log_rack()
-    @log_board()
-  log_score: ->
-    console.log "Total Score: " + @board.total_score
-  log_rack: ->
-    console.log @rack.all_by_value()
-  log_board: ->
-    row = ""
-    grid = ""
-    for y in [0..(@board.width-1)] by 1
-      for x in [0..(@board.width-1)] by 1
-        if @board.grid[x][y].tile == undefined
-          if @board.grid[x][y].bonus == "star"
-            tile = '★ '
-          else
-            tile = "_ "
-        else
-          tile = @board.grid[x][y].tile.value + " "
-        row += tile
-      grid += row + "\n"
-      row = ""
-    console.log grid
+    @board.grid.log()
 
-
-
-
-@game = new Game()

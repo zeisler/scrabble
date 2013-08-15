@@ -8,29 +8,31 @@ describe "Analyze Moves", ->
 
   describe "analyze", ->
 
+    describe "valid_move", ->
+
+      it "checks if cell has tile already", ->
+        @board.grid.get_cell(7,7).tile = new Tile('b', 1)
+        @analyze = new Analyze_Moves(@board)
+        expect(@analyze.valid_move( new Move(7,7, new Tile('a',1)) )).toBe false
+
+      it "checks if subsequent moves are aligned", ->
+        @board.moves.push new Move(7,7, new Tile('a',1))
+        @board.moves.push new Move(8,8, new Tile('a',1))
+
+        @analyze = new Analyze_Moves(@board)
+        expect(@analyze.valid_move(new Move(8,8, new Tile('a',1)))).toBe false
+
     describe "valid_moves", =>
 
        it "checks if moves are equal or greater than one", ->
         @board.moves.push new Move(7,7, new Tile('a',1))
-        @analyze = new Analyze_Moves(@board)
-        expect(@analyze.valid_moves()).toBe false
-
-      it "checks if cell has tile already", ->
-        @board.grid.get_cell(7,7).tile = new Tile('b', 1)
-        @board.moves.push new Move(7,7, new Tile('a',1))
-        @board.moves.push new Move(7,8, new Tile('a',1))
-        @analyze = new Analyze_Moves(@board)
+        @analyze = new Analyze_Moves()
+        @analyze.set_up_board(@board)
         expect(@analyze.valid_moves()).toBe false
 
       it "check first set of moves to be center", ->
         @board.moves.push new Move(8,8, new Tile('a',1))
         @board.moves.push new Move(7,8, new Tile('a',1))
-        @analyze = new Analyze_Moves(@board)
-        expect(@analyze.valid_moves()).toBe false
-
-      it "checks if subsequent moves are aligned", ->
-        @board.moves.push new Move(7,7, new Tile('a',1))
-        @board.moves.push new Move(8,8, new Tile('a',1))
         @analyze = new Analyze_Moves(@board)
         expect(@analyze.valid_moves()).toBe false
 

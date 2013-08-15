@@ -1,5 +1,5 @@
 @Dictionary  = class Dictionary
-  @word: (word) ->
+  @is_word: (word) ->
     response = jQuery.ajax(
       async: false
       method: "GET"

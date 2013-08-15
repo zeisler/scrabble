@@ -1,4 +1,6 @@
 @Rack = class Rack extends Tile_Collection
+  constructor: (letters) ->
+    super
 
   quanity_until_full: ->
     RACK_SIZE = 7
@@ -12,11 +14,11 @@
     return tiles
 
   log: ->
-    console.log @_all_by_value()
+    console.log @all_by_value()
 
   # Return string with comma separated list of tiles
-  _all_by_value: ->
+  all_by_value: ->
     tiles = ""
-    for tile in @collection
+    for tile in @all()
       tiles += (tile.value + ", ")
     return tiles

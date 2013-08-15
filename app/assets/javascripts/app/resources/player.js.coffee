@@ -5,17 +5,17 @@
     @log()
 
   move: (x, y, value) ->
-    tile = @rack.find_by_value value
-    @game.move(new Move(x,y, tile, @name))
-
-  move_by_word: (start_point, end_point, values) ->
-    if start_point.x == end_point.x
-      for y in [start_point.y..end_point.y]
-        @move(end_point.x, y, values[y])
-    else if start_point.y == end_point.y
-      for x in [start_point.x..end_point.x]
-        @move(x, end_point.y, values[y])
+    tile = @rack.remove_by_value value
+    if tile?
+      @game.move(new Move(x, y, tile, @name))
     @log()
+  move_by_word: (start_point, direction, values) ->
+    tiles = []
+    for value in values
+      tiles.push @rack.remove_by_value value
+    @game.move_by_word(start_point, direction, tiles, @name)
+    @log()
+
 
   play_word: ->
     @game.play_word()
@@ -24,6 +24,13 @@
   swap_tiles: (tiles) ->
     @game.swap_tiles(tiles)
     @log()
+
+  get_next_move: ->
+   letter = prompt "Enter letter from rack \n" + @rack.all_by_value()
+   loc = prompt "enter x, y"
+   loc = loc.split(",")
+   x = parseInt loc[0]; y = parseInt loc[1]
+   @move(x, y,letter)
 
   log: ->
     console.log @name
