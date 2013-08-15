@@ -1,6 +1,4 @@
-//= require scrabble/rack
-
-describe "class Rack" , ->
+describe "Rack" , ->
   beforeEach ->
     @rack = new Rack
   describe "on change", ->
@@ -18,13 +16,4 @@ describe "class Rack" , ->
       setFixtures('<div id="rack"><ul></ul></div><div id="game-board"></div>')
       @rack = new Rack
       @rack.add(new Tile("A", 5))
-
-    it "given a tile object it will be added to #rack", ->
-      @rack.make_tile_html(new Tile("A", 5))
-      expect($('#rack')).toContainText('A')
-    it "will be called on add", ->
-      expect($('#rack')).toContainText('A')
-    it "will be called on remove", ->
-      @rack.remove_by_letter("A")
-      expect($('#rack')).toContainText('A')
 

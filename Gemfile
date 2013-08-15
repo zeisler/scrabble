@@ -6,12 +6,14 @@ gem 'rails', '4.0.0'
 group :development do
   gem 'sqlite3', '1.3.7', :platform => :ruby
   gem 'coffee-rails-source-maps'
+  gem 'guard-livereload'
   platforms :jruby do
     # gem 'jruby-openssl'
     gem 'activerecord-jdbcsqlite3-adapter'
     gem 'trinidad', :require => nil
   end
 end
+gem 'scrabble-solver'
 
 gem 'sass-rails', '4.0.0'
 gem 'uglifier', '2.1.1'
@@ -35,3 +37,4 @@ end
 group :test, :development do
   gem 'jasmine-rails'
 end
+
