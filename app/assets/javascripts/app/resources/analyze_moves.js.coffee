@@ -97,6 +97,7 @@
   # TODO - to follow real scrabble rules
   # In Scrabble you can play one tile, but currently that messes up how direction is
   # is determined. So game rules are two tile per set of moves for now.
+
   valid_moves: ->
     unless @are_moves_more_than_one()
       return false
@@ -104,9 +105,21 @@
     return true
 
   valid_move: (move) ->
-    return false if @cell_has_tile(move)
+    if @cell_has_tile(move)
+      tile = @tiles_are_same(move)
+      if tile?
+        @rejected_tiles ?= []
+        @rejected_tiles.push tile
+      else return false
     return false unless @subsequent_moves_aligment(move)
     return true
+
+  tiles_are_same: (move) ->
+    cell = @grid.get_cell_by_key move
+    if cell.tile.value == move.tile.value
+      return move.tile
+    else
+      false
   cell_has_tile: (move) ->
     cell = @grid.get_cell_by_key(move)
     if cell.tile? then true else false
