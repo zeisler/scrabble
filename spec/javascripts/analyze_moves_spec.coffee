@@ -86,6 +86,32 @@ describe "Analyze Moves", ->
           expect(_.last(@analyze.moves) instanceof Cell).toBe true
           expect(@analyze.moves.length).toEqual 3
 
+      describe "additional_words", ->
+        it "", ->
+          #an
+          #be
+          #at
+          @board.grid.get_cell(7,7).tile = new Tile('a',1)
+          @board.grid.get_cell(7,8).tile = new Tile('b',1)
+          @board.grid.get_cell(7,9).tile = new Tile('a',1)
+          @board.played_words.push "aba"
+          @board.moves.push new Move(8,7, new Tile('n',1))
+          @board.moves.push new Move(8,8, new Tile('e',1))
+          @board.moves.push new Move(8,9, new Tile('t',1))
+          @board.grid.get_cell(8,7).tile = new Tile('n',1)
+          @board.grid.get_cell(8,8).tile = new Tile('e',1)
+          @board.grid.get_cell(8,9).tile = new Tile('t',1)
+          @analyze.var_setup()
+          @analyze.additional_words()
+          @board.grid.log()
+          expect(@analyze.found_words[7][0].tile.value).toEqual 'a'
+          expect(@analyze.found_words[7][1].tile.value).toEqual 'n'
+
+          expect(@analyze.found_words[8][0].tile.value).toEqual 'b'
+          expect(@analyze.found_words[8][1].tile.value).toEqual 'e'
+
+          expect(@analyze.found_words[9][0].tile.value).toEqual 'a'
+          expect(@analyze.found_words[9][1].tile.value).toEqual 't'
 
 
 
